@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace PracticeApp
+{
+    public partial class Form99 : Form1
+    {
+        public Form99()
+        {
+            InitializeComponent();
+        }
+
+        private void Form99_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Hello World!", "挨拶"
+                  , MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// 更新ボタンクリック時の更新処理
+        /// </summary>
+        public override void updateYes()
+        {
+            MessageBox.Show("更新するよ", "更新中"
+                  , MessageBoxButtons.OK);
+        }
+
+
+    }
+}

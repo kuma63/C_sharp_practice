@@ -1,0 +1,108 @@
+﻿namespace Matching
+{
+    partial class matching
+    {
+        /// <summary>
+        /// 必要なデザイナー変数です。
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// 使用中のリソースをすべてクリーンアップします。
+        /// </summary>
+        /// <param name="disposing">マネージド リソースを破棄する場合は true を指定し、その他の場合は false を指定します。</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows フォーム デザイナーで生成されたコード
+
+        /// <summary>
+        /// デザイナー サポートに必要なメソッドです。このメソッドの内容を
+        /// コード エディターで変更しないでください。
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.arrayC = new System.Windows.Forms.DataGridView();
+            this.matchingButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.arrayC)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // arrayC
+            // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            this.arrayC.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.arrayC.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.arrayC.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(136)))), ((int)(((byte)(91)))));
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.arrayC.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.arrayC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.arrayC.EnableHeadersVisualStyles = false;
+            this.arrayC.Location = new System.Drawing.Point(8, 120);
+            this.arrayC.Margin = new System.Windows.Forms.Padding(4);
+            this.arrayC.Name = "arrayC";
+            this.arrayC.RowHeadersWidth = 51;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.arrayC.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.arrayC.RowTemplate.Height = 24;
+            this.arrayC.Size = new System.Drawing.Size(656, 296);
+            this.arrayC.TabIndex = 0;
+            // 
+            // matchingButton
+            // 
+            this.matchingButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.matchingButton.FlatAppearance.BorderSize = 0;
+            this.matchingButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.matchingButton.ForeColor = System.Drawing.Color.Black;
+            this.matchingButton.Location = new System.Drawing.Point(248, 16);
+            this.matchingButton.Margin = new System.Windows.Forms.Padding(4);
+            this.matchingButton.Name = "matchingButton";
+            this.matchingButton.Size = new System.Drawing.Size(198, 85);
+            this.matchingButton.TabIndex = 1;
+            this.matchingButton.Text = "マッチング";
+            this.matchingButton.UseVisualStyleBackColor = false;
+            this.matchingButton.Click += new System.EventHandler(this.matchingButton_Click);
+            // 
+            // matching
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(234)))), ((int)(((byte)(85)))));
+            this.ClientSize = new System.Drawing.Size(675, 424);
+            this.Controls.Add(this.matchingButton);
+            this.Controls.Add(this.arrayC);
+            this.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Name = "matching";
+            this.Text = "マッチング";
+            this.Load += new System.EventHandler(this.matching_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.arrayC)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.DataGridView arrayC;
+        private System.Windows.Forms.Button matchingButton;
+    }
+}
+

@@ -1,0 +1,47 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace PracticeApp
+{
+    public partial class Menu : Form
+    {
+        public Menu()
+        {
+            InitializeComponent();
+        }
+
+        private void button_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            Form f = null;
+
+            if (button == button1)
+            {
+                f = new Menu1();
+            }
+            else
+            {
+                f = new Menu2();
+            }
+
+            //Form f = getForm(button);
+
+            f.ShowDialog();
+            f.Dispose();
+        }
+
+        //private Form getForm(Button button)
+        //{
+        //    if (button == button1) return new Menu1();
+           
+        //    return new Menu2();
+        //}
+    }
+}

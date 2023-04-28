@@ -1,0 +1,513 @@
+﻿using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace login
+{
+    public partial class userForm : Form
+    {
+        //ログインユーザー情報取得
+        private String loginUserId;
+        private String loginLastNm;
+        private String loginFirstNm;
+        public String loginIdText
+        {
+            set { this.loginUserId = value; }
+        }
+        public String loginLastNmText
+        {
+            set { this.loginLastNm = value; }
+        }
+        public String loginFirstNmText
+        {
+            set { this.loginFirstNm = value; }
+        }
+
+        private MyMode displayMode;
+        public userForm(String dispMode)
+        {
+            InitializeComponent();
+            inputUserId.LostFocus += new EventHandler(inputUserId_LostFocus);
+            inputPassConfirm.LostFocus += new EventHandler(inputPassConfirm_LostFocus);
+
+            inputUserId.Clear();
+            inputPass.Clear();
+            inputPassConfirm.Clear();
+            inputLastNm.Clear();
+            inputFirstNm.Clear();
+
+            displayMode = (MyMode)Enum.Parse(typeof(MyMode), dispMode);
+        }
+
+        //表示画面のモード
+        private enum MyMode
+        {
+            Insert,  //新規登録
+            Update,  //変更
+            Delete   //削除
+        }
+
+        /// <summary>
+        /// ユーザー一覧画面から選択ユーザーの情報を受け取る
+        /// </summary>
+        ///         
+        private String userId;
+        private String lastNm;
+        private String firstNm;
+        private String delflg;
+        private String modifiedDate;
+        private bool _updatedData = false;
+        
+        public String userIdText
+        {
+            set { this.userId = value; }
+            get { return inputUserId.Text; }
+        }
+        public String lastNmText
+        {
+            set { this.lastNm = value; }
+            get { return inputLastNm.Text; }
+        }
+        public String firstNmText
+        {
+            set { this.firstNm = value; }
+            get { return inputFirstNm.Text; }   
+        }
+        public String delflgText
+        {
+            set { this.delflg = value; }
+            get { return inputDelflg.Text; }
+        }
+        public String modifiedDateText
+        {
+            set { this.modifiedDate = value; }
+        }
+        public bool updatedData
+        {
+            get { return this._updatedData; }
+        }
+
+        /// <summary>
+        /// 画面の読み込み
+        /// </summary>
+        /// <param name="sender">イベントコントロール</param>
+        /// <param name="e">イベント引数</param>
+        private void userForm_Load(object sender, EventArgs e)
+        {
+            inputUserId.Text = userId;
+            inputLastNm.Text = lastNm;
+            inputFirstNm.Text = firstNm;
+            inputDelflg.Text = delflg;
+
+            if (displayMode == MyMode.Insert)
+            {
+                delflgLabel.Visible = false;
+                inputDelflg.Visible = false;
+            }
+            else if(this.displayMode == MyMode.Update)
+            {
+                if (inputDelflg.Text == userIndexView.enroll)
+                {
+                    inputDelflg.Enabled = false;
+                }
+                else
+                {
+                    inputUserId.Enabled = false;
+                    inputPass.Enabled = false;
+                    inputPassConfirm.Enabled = false;
+                    inputLastNm.Enabled = false;
+                    inputFirstNm.Enabled = false;
+                }
+            }
+            else 
+            {
+                //コントロールを操作できなくする
+                inputUserId.Enabled = false;
+                passLabel.Visible = false;
+                inputPass.Visible = false;
+                passConfLabel.Visible = false;
+                inputPassConfirm.Visible = false;
+                inputLastNm.Enabled = false;
+                inputFirstNm.Enabled = false;
+                inputDelflg.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// ユーザーID入力欄からフォーカスが外れた時
+        /// </summary>
+        /// <param name="sender">イベントコントロール</param>
+        /// <param name="e">イベント情報</param>
+        private void inputUserId_LostFocus(object sender, EventArgs e)
+        {
+            inputUserId.Text = inputUserId.Text.PadLeft(inputUserId.MaxLength, '0');
+            inputUserId.BackColor = Color.White;
+        }
+
+        /// <summary>
+        /// パスワード確認用入力欄からフォーカスを外した時
+        /// </summary>
+        /// <param name="sender">イベントコントロール</param>
+        /// <param name="e">イベント情報</param>
+        private void inputPassConfirm_LostFocus(Object sender, EventArgs e)
+        {
+            inputPass.BackColor = Color.White;
+            inputPassConfirm.BackColor = Color.White;
+        }
+
+        /// <summary>
+        /// 確定ボタンクリック
+        /// </summary>
+        /// <param name="sender">イベントコントロール</param>
+        /// <param name="e">イベント引数</param>
+        private void setButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.displayMode == MyMode.Insert)
+                {
+                    //空欄チェックとパスワード入力チェック
+                    if (inputCheck()) return;
+
+                    registUser();
+                }
+                else if (this.displayMode == MyMode.Update)
+                {                   
+                    if (getNewModifiedDate()) return;
+
+                    //パスワード入力チェック
+                    if (passCheck()) return;
+
+                    updateUser();
+                }
+                else
+                {
+                    MessageBox.Show("削除してよろしいですか？", "確認",
+                            MessageBoxButtons.YesNo);
+
+                    if (getNewModifiedDate()) return;
+
+                    deleteUser();
+                }
+
+                //変更が完了したことを数字でユーザー一覧画面に送る
+                this._updatedData = true;
+            }
+            catch(OracleException ex) 
+            {
+                if (ex.Number == Const.uniqueConstraintViolation)
+                {
+                    MessageBox.Show("入力されたIDはすでに存在します", "エラー",
+                    MessageBoxButtons.OK);
+                }
+            }
+            
+            //フォームを閉じる
+            this.Close();
+        }
+
+        #region DB操作前のチェック
+        /// <summary>
+        /// 入力チェック
+        /// </summary>
+        /// <returns>true:問題あり　false:問題なし</returns>
+        private bool inputCheck()
+        {
+            //ユーザーID入力欄が空欄
+            if (String.IsNullOrEmpty(inputUserId.Text))
+            {
+                MessageBox.Show("入力は必須です", "入力エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return true;
+            }
+
+            //姓の入力欄が空欄
+            if (String.IsNullOrEmpty(inputFirstNm.Text))
+            {
+                MessageBox.Show("入力は必須です", "入力エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return true;
+            }
+
+            //名の入力欄が空欄
+            if (String.IsNullOrEmpty(inputLastNm.Text))
+            {
+                MessageBox.Show("入力は必須です", "入力エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return true;
+            }
+
+            //パスワード入力欄が空欄
+            if (String.IsNullOrEmpty(inputPass.Text) || String.IsNullOrEmpty(inputPassConfirm.Text))
+            {
+                MessageBox.Show("入力は必須です", "入力エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return true;
+            }
+
+            //パスワードとパスワード確認用入力欄の値が同じか
+            if (passCheck()) return true;
+           
+            //空欄なし
+            return false;
+        }
+
+        /// <summary>
+        /// パスワードとパスワード確認用入力欄の値が同じか
+        /// </summary>
+        /// <returns>true:違う　false:同じ</returns>
+        private bool passCheck()
+        {
+            if (inputPass.Text != inputPassConfirm.Text)
+            {
+                inputPass.BackColor = Color.Red;
+                inputPassConfirm.BackColor = Color.Red;
+                MessageBox.Show("パスワードが違います", "入力エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return true;
+            }
+
+            return false;
+        }
+        #endregion
+
+        #region 新規登録
+        /// <summary>
+        /// 新規登録ユーザーの情報をDBへインサート
+        /// </summary>
+        private void registUser()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("insert into admin.m_user(        ");
+            sb.AppendLine("                  user_id,       ");
+            sb.AppendLine("                  password,      ");
+            sb.AppendLine("                  last_name,     ");
+            sb.AppendLine("                  first_name)    ");
+            sb.AppendLine("            values(              ");
+            sb.AppendLine("                  :user_id,      ");
+            sb.AppendLine("                  :password,     ");
+            sb.AppendLine("                  :last_name,    ");
+            sb.AppendLine("                  :first_name)   ");
+            String sql = sb.ToString();
+
+            var paramList = new List<OracleParameter>();
+            paramList.Add(new OracleParameter(":user_id",
+                                              OracleDbType.Char,
+                                              inputUserId.Text,
+                                              ParameterDirection.Input));
+            paramList.Add(new OracleParameter(":password",
+                                              OracleDbType.Varchar2,
+                                              inputPass.Text,
+                                              ParameterDirection.Input));
+            paramList.Add(new OracleParameter(":last_name",
+                                              OracleDbType.NVarchar2,
+                                              inputLastNm.Text,
+                                              ParameterDirection.Input));
+            paramList.Add(new OracleParameter(":first_name", 
+                                              OracleDbType.NVarchar2, 
+                                              inputFirstNm.Text, 
+                                              ParameterDirection.Input));
+
+            OracleParameter[] param = new OracleParameter[paramList.Count];
+            param = paramList.ToArray();
+
+            //DBへインサート
+            DataAccess access = new DataAccess();
+            access.ExecuteUpdate(sql, param);
+
+            updatedUserInsert();
+        }
+        #endregion
+
+        #region ユーザー情報変更
+        //ユーザー情報変更
+        protected void updateUser()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("update admin.m_user set              ");
+            sb.AppendLine("       modified_date = systimestamp, ");
+
+            var sqlList = new List<string>();
+            var paramList = new List<OracleParameter>();
+
+            //ユーザーIDが入力されている
+            if (!String.IsNullOrEmpty(inputUserId.Text))
+            {
+                sqlList.Add("user_id = :user_id");
+                paramList.Add(new OracleParameter(":user_id",
+                                                  OracleDbType.Char,
+                                                  inputUserId.Text,
+                                                  ParameterDirection.Input));
+            }
+
+            //姓が入力されている
+            if (!String.IsNullOrEmpty(inputLastNm.Text))
+            {
+                sqlList.Add("last_name = :last_name");
+                paramList.Add(new OracleParameter(":last_name",
+                                                  OracleDbType.NVarchar2,
+                                                  inputLastNm.Text,
+                                                  ParameterDirection.Input));
+            }
+
+            //名が入力されている
+            if (!String.IsNullOrEmpty(inputFirstNm.Text))
+            {
+                sqlList.Add("first_name = :first_name");
+                paramList.Add(new OracleParameter(":first_name",
+                                                  OracleDbType.NVarchar2,
+                                                  inputFirstNm.Text,
+                                                  ParameterDirection.Input));
+            }
+
+            //パスワードが入力されている
+            if (!String.IsNullOrEmpty(inputPass.Text))
+            {
+                sqlList.Add("password = :password");
+                paramList.Add(new OracleParameter(":password",
+                                                  OracleDbType.NVarchar2,
+                                                  inputPass.Text,
+                                                  ParameterDirection.Input));
+            }
+
+            //ステータス欄が「在籍」に変更されている
+            if (inputDelflg.Text == userIndexView.enroll)
+            {
+                sqlList.Add("delflg = 0");
+            }
+
+            sb.AppendLine(String.Join(", ", sqlList));
+            sb.AppendLine(" where user_id = :id");
+            String sql = sb.ToString();
+
+            paramList.Add(new OracleParameter(":id",
+                                             OracleDbType.Char,
+                                             this.userId,
+                                             ParameterDirection.Input));
+
+            OracleParameter[] paramUp = new OracleParameter[sqlList.Count];
+            paramUp = paramList.ToArray();
+
+            //DB接続し情報変更
+            DataAccess access = new DataAccess();
+            access.ExecuteUpdate(sql, paramUp);
+
+            updatedUserInsert();
+        }
+        #endregion
+
+        #region ユーザー削除
+        /// <summary>
+        /// ユーザー削除
+        /// </summary>
+        /// <returns>false:コミット</returns>
+        protected void deleteUser()
+        {
+            String sql = "update admin.m_user set delflg = 1, modified_date = systimestamp where user_id = :user_id";
+            var paramList = new List<OracleParameter>();
+            paramList.Add(new OracleParameter(":user_id",
+                                               OracleDbType.Char,
+                                               inputUserId.Text,
+                                               ParameterDirection.Input));
+
+            OracleParameter[] param = new OracleParameter[paramList.Count];
+            param = paramList.ToArray();
+
+            //DB接続　ユーザー削除
+            DataAccess access = new DataAccess();
+            access.ExecuteUpdate(sql, param);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 更新日時の取得(楽観的ロック)
+        /// </summary>
+        /// <returns>true:画面表示から更新日時が更新されている false:されていない</returns>
+        private bool getNewModifiedDate()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("select to_char(modified_date, 'yyyy/mm/dd HH24:mi:ss.ff3') as modified_date  ");
+            sb.AppendLine("from   admin.m_user                                                          ");
+            sb.AppendLine("where  user_id = :user_id                                                    ");
+            String sql = sb.ToString();
+
+            var paramList = new List<OracleParameter>();
+            paramList.Add(new OracleParameter(":user_id",
+                                              OracleDbType.Char,
+                                              this.userId,
+                                              ParameterDirection.Input));
+
+            OracleParameter[] param = new OracleParameter[paramList.Count];
+            param = paramList.ToArray();
+
+            DataAccess access = new DataAccess();
+            DataTable dt = access.ExecuteSelect(sql, param);
+
+            if(this.modifiedDate == dt.Rows[0]["modified_date"].ToString())
+            {
+                return false;
+            }
+            else
+            {
+                MessageBox.Show("情報が更新されたため変更できません", "エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                this.Close();
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// 更新したユーザーの情報をインサート
+        /// </summary>
+        private void updatedUserInsert()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("insert into admin.t_update_his(      ");
+            sb.AppendLine("            updated_user_id,         ");
+            sb.AppendLine("            updated_user_lastnm,     ");
+            sb.AppendLine("            updated_user_firstnm,    ");
+            sb.AppendLine("            updated_date)            ");
+            sb.AppendLine("       values(                        ");
+            sb.AppendLine("             :updated_user_id,       ");
+            sb.AppendLine("             :updated_user_lastnm,   ");
+            sb.AppendLine("             :updated_user_firstnm,  ");
+            sb.AppendLine("             systimestamp)           ");
+            String sql = sb.ToString();
+
+            var paramList = new List<OracleParameter>();
+            paramList.Add(new OracleParameter(":updated_user_id",
+                                               OracleDbType.Char,
+                                               this.loginUserId,
+                                               ParameterDirection.Input));
+            paramList.Add(new OracleParameter(":updated_user_lastnm",
+                                               OracleDbType.NVarchar2,
+                                               this.loginLastNm,
+                                               ParameterDirection.Input));
+            paramList.Add(new OracleParameter(":updated_user_firstnm",
+                                               OracleDbType.NVarchar2,
+                                               this.loginFirstNm,
+                                               ParameterDirection.Input));
+            Console.WriteLine(this.loginUserId + this.loginLastNm + this.loginFirstNm);
+
+            OracleParameter[] param = new OracleParameter[paramList.Count];
+            param = paramList.ToArray();
+
+            DataAccess access = new DataAccess();
+            access.ExecuteUpdate(sql, param);
+        }
+    }
+
+}

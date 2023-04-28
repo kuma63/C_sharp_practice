@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace PracticeApp
+{
+    public partial class Menu1 : Form
+    {
+        public Menu1()
+        {
+            InitializeComponent();
+        }
+
+        private void Menu1cs_Load(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Menu1を開きます", "ようこそ"
+            //      , MessageBoxButtons.OK);
+
+
+        }
+    }
+}

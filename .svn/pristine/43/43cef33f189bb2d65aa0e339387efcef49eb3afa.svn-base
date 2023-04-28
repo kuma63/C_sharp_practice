@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace PracticeApp
+{
+    public partial class Form2 : Form
+    {
+        public Form2()
+        {
+            InitializeComponent();
+        }
+
+        /// <summary>
+        /// 終了ボタンクリック
+        /// </summary>
+        /// <param name="sender">イベントコントロール</param>
+        /// <param name="e">イベント情報</param>
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        /// <summary>
+        /// 更新ボタンクリック時の更新処理
+        /// </summary>
+        //public override void updateYes()
+        //{
+        //    MessageBox.Show("更新するよ", "更新中"
+        //          , MessageBoxButtons.OK);
+        //}
+    }
+}

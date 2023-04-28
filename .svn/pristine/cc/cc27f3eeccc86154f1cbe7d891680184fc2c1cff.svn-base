@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace SimpleCalc
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void calcButton_Click(object sender, EventArgs e)
+        {
+            int valueLeft;
+            int valueRight;
+            int valueAnswer;
+
+            valueLeft = InputCheck(input1TextBox.Text, out valueLeft);
+            valueRight = InputCheck(input2TextBox.Text, out valueRight);
+
+            valueAnswer = valueLeft + valueRight;
+
+            answerTextBox.Text = valueAnswer.ToString();
+        }
+
+        private int InputCheck(String textValue, out int value)
+        {
+            if (int.TryParse(textValue, out value) != true)
+            {
+                value = 0;
+            }
+            return value;
+
+        }
+    }
+}

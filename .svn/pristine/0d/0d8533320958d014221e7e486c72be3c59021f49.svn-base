@@ -1,0 +1,151 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Oracle.ManagedDataAccess.Client;
+
+namespace Matching
+{
+    public partial class matching : Form
+    {
+        public matching()
+        {
+            InitializeComponent();
+        }
+
+        private void matching_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void matchingButton_Click(object sender, EventArgs e)
+        {
+            //DB接続
+            String constr = "User Id=matsuguma; Password=pass12; Data Source=192.168.1.34:1521/XEPDB1";
+            using (OracleConnection conn = new OracleConnection(constr))
+            {
+                try
+                {
+                    conn.Open();
+
+                    //m_empとbp_techをDateTableに入れる
+                    String sqlA = "select id, name from m_emp order by id";
+                    String sqlB = "select id, last_name || first_name as name from bp_tech order by id";
+                    using (OracleCommand cmdA = new OracleCommand(sqlA, conn))
+                    using (OracleCommand cmdB = new OracleCommand(sqlB, conn))
+                    {
+                        using (OracleDataAdapter adapterA = new OracleDataAdapter(cmdA))
+                        using (OracleDataAdapter adapterB = new OracleDataAdapter(cmdB))
+                        {
+                            DataTable dtA = new DataTable();   //m_empが入る
+                            DataTable dtB = new DataTable();   //bp_techが入る
+                            adapterA.Fill(dtA);
+                            adapterB.Fill(dtB);
+
+                            //dtAとdtBをマッチングしてdtCに挿入していく
+                            inDtC(dtA, dtB);
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                }
+               
+            }
+        }
+
+        //dtAとdtBをマッチングしてdtCに挿入していく
+        private void inDtC(DataTable dtA, DataTable dtB)
+        {
+            DataTable dtC = new DataTable();
+            dtC.Columns.Add("ID");
+            dtC.Columns.Add("NAME");
+            int ai = 0;
+            int bi = 0;
+            int ci = 0;
+            
+            while ((ai <= dtA.Rows.Count - 1) || (bi <= dtB.Rows.Count - 1))
+            {
+                if (ai <= dtA.Rows.Count - 1)
+                {
+                    if (bi <= dtB.Rows.Count - 1)
+                    {
+                        if (Int32.Parse(dtA.Rows[ai]["id"].ToString()) <= Int32.Parse(dtB.Rows[bi]["id"].ToString()))
+                        {
+                            if (Int32.Parse(dtA.Rows[ai]["id"].ToString()) < Int32.Parse(dtB.Rows[bi]["id"].ToString()))
+                            {
+                                dtC.Rows.Add(dtC.NewRow());
+                                dtC.Rows[ci]["id"] = dtA.Rows[ai]["id"];
+                                dtC.Rows[ci]["name"] = dtA.Rows[ai]["name"];
+                                Console.WriteLine(dtC.Rows[ci]["id"]);
+                                Console.WriteLine(dtC.Rows[ci]["name"]);
+                                ai++;
+                                ci++;
+                            }
+                            else
+                            {
+                                dtC.Rows.Add(dtC.NewRow());
+                                dtC.Rows[ci]["id"] = dtB.Rows[bi]["id"];
+                                dtC.Rows[ci]["name"] = dtB.Rows[bi]["name"];
+                                Console.WriteLine(dtC.Rows[ci]["id"]);
+                                Console.WriteLine(dtC.Rows[ci]["name"]);
+                                ai++;
+                                bi++;
+                                ci++;
+                            }
+                        }
+                        else
+                        {
+                            dtC.Rows.Add(dtC.NewRow());
+                            dtC.Rows[ci]["id"] = dtB.Rows[bi]["id"];
+                            dtC.Rows[ci]["name"] = dtB.Rows[bi]["name"];
+                            Console.WriteLine(dtC.Rows[ci]["id"]);
+                            Console.WriteLine(dtC.Rows[ci]["name"]);
+                            bi++;
+                            ci++;
+                        }
+                    }
+                    else
+                    {
+                        dtC.Rows.Add(dtC.NewRow());
+                        dtC.Rows[ci]["id"] = dtA.Rows[ai]["id"];
+                        dtC.Rows[ci]["name"] = dtA.Rows[ai]["name"];
+                        Console.WriteLine(dtC.Rows[ci]["id"]);
+                        Console.WriteLine(dtC.Rows[ci]["name"]);
+                        ai++;
+                        ci++;
+                    }
+                }
+                else
+                {
+                    dtC.Rows.Add(dtC.NewRow());
+                    dtC.Rows[ci]["id"] = dtB.Rows[bi]["id"];
+                    dtC.Rows[ci]["name"] = dtB.Rows[bi]["name"];
+                    Console.WriteLine(dtC.Rows[ci]["id"]);
+                    Console.WriteLine(dtC.Rows[ci]["name"]);
+                    bi++;
+                    ci++;
+                }
+            }
+            arrayC.DataSource = dtC;
+        }
+
+        
+        
+    }
+}

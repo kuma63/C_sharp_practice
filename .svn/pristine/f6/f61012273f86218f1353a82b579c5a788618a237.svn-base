@@ -1,0 +1,116 @@
+﻿namespace SimpleCalc
+{
+    partial class Form1
+    {
+        /// <summary>
+        /// 必要なデザイナー変数です。
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// 使用中のリソースをすべてクリーンアップします。
+        /// </summary>
+        /// <param name="disposing">マネージド リソースを破棄する場合は true を指定し、その他の場合は false を指定します。</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows フォーム デザイナーで生成されたコード
+
+        /// <summary>
+        /// デザイナー サポートに必要なメソッドです。このメソッドの内容を
+        /// コード エディターで変更しないでください。
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.input1TextBox = new System.Windows.Forms.TextBox();
+            this.plusLabel = new System.Windows.Forms.Label();
+            this.input2TextBox = new System.Windows.Forms.TextBox();
+            this.equalLabel = new System.Windows.Forms.Label();
+            this.answerTextBox = new System.Windows.Forms.TextBox();
+            this.calcButton = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // input1TextBox
+            // 
+            this.input1TextBox.Location = new System.Drawing.Point(13, 13);
+            this.input1TextBox.Name = "input1TextBox";
+            this.input1TextBox.Size = new System.Drawing.Size(100, 22);
+            this.input1TextBox.TabIndex = 0;
+            // 
+            // plusLabel
+            // 
+            this.plusLabel.AutoSize = true;
+            this.plusLabel.Location = new System.Drawing.Point(119, 16);
+            this.plusLabel.Name = "plusLabel";
+            this.plusLabel.Size = new System.Drawing.Size(15, 15);
+            this.plusLabel.TabIndex = 1;
+            this.plusLabel.Text = "+";
+            // 
+            // input2TextBox
+            // 
+            this.input2TextBox.Location = new System.Drawing.Point(140, 12);
+            this.input2TextBox.Name = "input2TextBox";
+            this.input2TextBox.Size = new System.Drawing.Size(100, 22);
+            this.input2TextBox.TabIndex = 2;
+            // 
+            // equalLabel
+            // 
+            this.equalLabel.AutoSize = true;
+            this.equalLabel.Location = new System.Drawing.Point(246, 15);
+            this.equalLabel.Name = "equalLabel";
+            this.equalLabel.Size = new System.Drawing.Size(15, 15);
+            this.equalLabel.TabIndex = 3;
+            this.equalLabel.Text = "=";
+            // 
+            // answerTextBox
+            // 
+            this.answerTextBox.Location = new System.Drawing.Point(267, 12);
+            this.answerTextBox.Name = "answerTextBox";
+            this.answerTextBox.Size = new System.Drawing.Size(100, 22);
+            this.answerTextBox.TabIndex = 4;
+            // 
+            // calcButton
+            // 
+            this.calcButton.Location = new System.Drawing.Point(13, 63);
+            this.calcButton.Name = "calcButton";
+            this.calcButton.Size = new System.Drawing.Size(354, 23);
+            this.calcButton.TabIndex = 5;
+            this.calcButton.Text = "計算する";
+            this.calcButton.UseVisualStyleBackColor = true;
+            this.calcButton.Click += new System.EventHandler(this.calcButton_Click);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(396, 105);
+            this.Controls.Add(this.calcButton);
+            this.Controls.Add(this.answerTextBox);
+            this.Controls.Add(this.equalLabel);
+            this.Controls.Add(this.input2TextBox);
+            this.Controls.Add(this.plusLabel);
+            this.Controls.Add(this.input1TextBox);
+            this.Name = "Form1";
+            this.Text = "簡易計算プログラム";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TextBox input1TextBox;
+        private System.Windows.Forms.Label plusLabel;
+        private System.Windows.Forms.TextBox input2TextBox;
+        private System.Windows.Forms.Label equalLabel;
+        private System.Windows.Forms.TextBox answerTextBox;
+        private System.Windows.Forms.Button calcButton;
+    }
+}
+

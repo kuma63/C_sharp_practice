@@ -1,0 +1,271 @@
+﻿using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Windows.Forms;
+using System.Collections.Generic;
+
+namespace login
+{
+    public partial class LoginForm : Form
+    {
+        //ログインユーザーの姓名
+        private String lastNm;
+        private String firstNm;
+
+        public LoginForm()
+        {
+            InitializeComponent();
+
+            this.clearButton_Click(null, null);　　//テキストボックスが空になる
+            inputUserId.LostFocus += new EventHandler(inputUserId_LostFocus);
+
+        #if DEBUG
+            inputUserId.Text = "00001";
+            inputPassword.Text = "abc12";
+        #endif 
+        }
+
+        #region ログインボタンクリック
+
+        /// <summary>
+        /// ログインボタンクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void loginButton_Click(object sender, EventArgs e)
+        {
+            //入力チェック
+            if (inputCheck()) return;
+
+            //ログイン処理(user_id,passwordチェック)
+            if (!(loginCheck())) return;
+
+            //ログインできたらログインユーザー情報をDBへインサート
+            loginUserInsert();
+
+            //終了
+            using (LoginHisView his = new LoginHisView())
+            {
+                //LoginHisViewのプロパティにログインユーザー情報を渡す
+                his.LoginIdText = inputUserId.Text;
+                his.loginLastNmText = this.lastNm;
+                his.loginFirstNmText = this.firstNm;
+                his.ShowDialog();
+            }    
+        }
+
+        //入力チェック
+        private bool inputCheck()
+        {
+            if ((String.IsNullOrEmpty(inputUserId.Text)) && (String.IsNullOrEmpty(inputPassword.Text)))
+            {
+                inputUserId.BackColor = Color.Red;
+                inputPassword.BackColor = Color.Red;
+                inputUserId.Focus();
+                inputUserId.SelectionStart = 0;
+                MessageBox.Show("ユーザーIDとパスワードを入力してください", "入力エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return true;
+            }
+
+            if (String.IsNullOrEmpty(inputUserId.Text))
+            {
+                inputUserId.BackColor = Color.Red;
+                inputUserId.Focus();
+                inputUserId.SelectionStart = 0;
+                MessageBox.Show("ユーザーIDを入力してください", "入力エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return true;
+            }
+
+            if (String.IsNullOrEmpty(inputPassword.Text))
+            {
+                inputPassword.BackColor = Color.Red;
+                inputPassword.Focus();
+                inputPassword.SelectionStart = 0;
+                MessageBox.Show("パスワードを入力してください", "入力エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return true;
+            }
+            //どれにもあてはまらない場合
+            return false;
+        }
+
+        //DB接続しログインチェック
+        private bool loginCheck()
+        {
+            int textLength = inputUserId.Text.Length;
+
+            String sql = "select * from admin.m_user where user_id = :user_id and password = :password";
+            //parameterをセットする
+            OracleParameter[] paramList = this.setParam();
+
+            //select結果をDataTableへ
+            DataAccess accessDt = new DataAccess();
+            DataTable m_user = accessDt.ExecuteSelect(sql, paramList);
+
+            if (m_user.Rows.Count == 0)
+            {
+                inputPassword.BackColor = Color.Red;
+                inputUserId.BackColor = Color.Red;
+                inputUserId.Focus();
+                inputUserId.SelectionStart = textLength;     //カーソル末尾へ
+                MessageBox.Show("ユーザーIDもしくはパスワードが正しくありません", "入力エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return false;
+            }
+
+            lastNm = m_user.Rows[0]["last_name"].ToString();
+            firstNm = m_user.Rows[0]["first_name"].ToString();
+            MessageBox.Show(m_user.Rows[0]["last_name"] + "さんようこそ", "ログイン成功",
+                MessageBoxButtons.OK);
+
+            return true;
+        }
+
+        //ログイン用parameterをセットする
+        private OracleParameter[] setParam()
+        {
+            OracleParameter[] paramList = new OracleParameter[2];
+            paramList[0] = new OracleParameter(":user_id",
+                                               OracleDbType.Char,
+                                               inputUserId.Text,
+                                               ParameterDirection.Input);
+            paramList[1] = new OracleParameter(":password",
+                                               OracleDbType.Varchar2,
+                                               inputPassword.Text,
+                                               ParameterDirection.Input);
+            return paramList;
+        }
+
+        //ログイン後ログインユーザー情報をDBに挿入
+        private void loginUserInsert()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("insert into admin.t_login_user( ");
+            sb.AppendLine("               login_date,      ");
+            sb.AppendLine("               login_user_id,   ");
+            sb.AppendLine("               login_pc_name,   ");
+            sb.AppendLine("               login_pc_ip)     ");
+            sb.AppendLine("       values(                  ");
+            sb.AppendLine("               :login_date,     ");
+            sb.AppendLine("               :login_user_id,  ");
+            sb.AppendLine("               :login_pc_name,  ");
+            sb.AppendLine("               :login_pc_ip)    ");
+            String sqlInsert = sb.ToString();
+
+            String hostName = Dns.GetHostName();
+            IPHostEntry ip = Dns.GetHostEntry(hostName);
+
+            var paramList = new List<OracleParameter>();
+            paramList.Add(new OracleParameter(":login_date",
+                                              OracleDbType.Date,
+                                              DateTime.Now,        //現在時刻
+                                              ParameterDirection.Input));
+            paramList.Add(new OracleParameter(":login_user_id",
+                                              OracleDbType.Char,
+                                              inputUserId.Text,
+                                              ParameterDirection.Input));
+            paramList.Add(new OracleParameter(":login_pc_name",
+                                              OracleDbType.NVarchar2,
+                                              hostName,
+                                              ParameterDirection.Input));
+
+            //IPv4取得
+            foreach (IPAddress address in ip.AddressList)
+            {
+                if (address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    //取得したIPアドレスを挿入
+                    paramList.Add(new OracleParameter(":login_pc_ip",
+                                                      OracleDbType.NVarchar2,
+                                                      address,
+                                                      ParameterDirection.Input));
+                }
+            }
+
+            OracleParameter[] param = new OracleParameter[paramList.Count];
+            param = paramList.ToArray();    
+
+            DataAccess access = new DataAccess();
+            access.ExecuteUpdate(sqlInsert, param);
+            
+        }
+        #endregion
+
+        /// <summary>
+        /// ユーザーID入力欄からカーソルが外れた時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void inputUserId_LostFocus(object sender, EventArgs e)
+        {
+            inputUserId.Text = inputUserId.Text.PadLeft(inputUserId.MaxLength, '0');
+        }
+
+        /// <summary>
+        /// ユーザーID入力欄の入力値が変更されたとき
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void inputUserId_TextChanged(object sender, EventArgs e)
+        {
+
+            if (!String.IsNullOrEmpty(inputUserId.Text))
+            {
+                inputUserId.BackColor = Color.White;
+            }
+        }
+
+        /// <summary>
+        /// パスワード入力欄の入力値が変更されたとき
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void inputPassword_TextChanged(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(inputPassword.Text))
+            {
+                inputPassword.BackColor = Color.White;
+            }
+        }
+
+        /// <summary>
+        /// クリアボタンクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            inputUserId.Clear();
+            inputPassword.Clear();
+            inputUserId.Focus();
+            inputUserId.SelectionStart = 0;
+        }
+
+        /// <summary>
+        /// 終了ボタンクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void endButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+       
+    }
+
+
+
+
+}

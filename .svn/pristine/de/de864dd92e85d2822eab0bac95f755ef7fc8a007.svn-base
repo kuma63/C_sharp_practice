@@ -1,0 +1,368 @@
+﻿namespace LoginApp
+{
+    partial class FormLoginHis
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.idTextBox = new System.Windows.Forms.TextBox();
+            this.nameTextBox = new System.Windows.Forms.TextBox();
+            this.idLabel = new System.Windows.Forms.Label();
+            this.nameLabel = new System.Windows.Forms.Label();
+            this.loginDayLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.seachButton = new System.Windows.Forms.Button();
+            this.loginDataView = new System.Windows.Forms.DataGridView();
+            this.USER_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.USER_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DELFLG = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LOGIN_DATE = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LOGIN_PC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LOGIN_PC_IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.loginStart = new System.Windows.Forms.TextBox();
+            this.loginEnd = new System.Windows.Forms.TextBox();
+            this.deleteFlg = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.loginUserRadioButton = new System.Windows.Forms.RadioButton();
+            this.loginUserBox = new System.Windows.Forms.ComboBox();
+            this.nameRadioButton = new System.Windows.Forms.RadioButton();
+            this.idRadioButton = new System.Windows.Forms.RadioButton();
+            ((System.ComponentModel.ISupportInitialize)(this.loginDataView)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // idTextBox
+            // 
+            this.idTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.idTextBox.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.idTextBox.Location = new System.Drawing.Point(186, 11);
+            this.idTextBox.MaxLength = 5;
+            this.idTextBox.Name = "idTextBox";
+            this.idTextBox.Size = new System.Drawing.Size(100, 25);
+            this.idTextBox.TabIndex = 0;
+            this.idTextBox.TextChanged += new System.EventHandler(this.idTextBox_TextChanged);
+            this.idTextBox.Leave += new System.EventHandler(this.idTextBox_Leave);
+            // 
+            // nameTextBox
+            // 
+            this.nameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nameTextBox.Location = new System.Drawing.Point(186, 64);
+            this.nameTextBox.Name = "nameTextBox";
+            this.nameTextBox.Size = new System.Drawing.Size(100, 25);
+            this.nameTextBox.TabIndex = 1;
+            // 
+            // idLabel
+            // 
+            this.idLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.idLabel.AutoSize = true;
+            this.idLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.idLabel.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.idLabel.Location = new System.Drawing.Point(80, 16);
+            this.idLabel.Name = "idLabel";
+            this.idLabel.Size = new System.Drawing.Size(99, 18);
+            this.idLabel.TabIndex = 4;
+            this.idLabel.Text = "ユーザーID";
+            // 
+            // nameLabel
+            // 
+            this.nameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nameLabel.AutoSize = true;
+            this.nameLabel.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.nameLabel.Location = new System.Drawing.Point(80, 64);
+            this.nameLabel.Name = "nameLabel";
+            this.nameLabel.Size = new System.Drawing.Size(100, 18);
+            this.nameLabel.TabIndex = 5;
+            this.nameLabel.Text = "ユーザー名";
+            // 
+            // loginDayLabel
+            // 
+            this.loginDayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.loginDayLabel.AutoSize = true;
+            this.loginDayLabel.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.loginDayLabel.Location = new System.Drawing.Point(384, 24);
+            this.loginDayLabel.Name = "loginDayLabel";
+            this.loginDayLabel.Size = new System.Drawing.Size(95, 18);
+            this.loginDayLabel.TabIndex = 6;
+            this.loginDayLabel.Text = "ログイン日";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label4.Location = new System.Drawing.Point(591, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(27, 18);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "～";
+            // 
+            // seachButton
+            // 
+            this.seachButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.seachButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.seachButton.Location = new System.Drawing.Point(640, 72);
+            this.seachButton.Name = "seachButton";
+            this.seachButton.Size = new System.Drawing.Size(75, 23);
+            this.seachButton.TabIndex = 9;
+            this.seachButton.Text = "検索";
+            this.seachButton.UseVisualStyleBackColor = true;
+            this.seachButton.Click += new System.EventHandler(this.seachButton_Click);
+            // 
+            // loginDataView
+            // 
+            this.loginDataView.AllowUserToAddRows = false;
+            this.loginDataView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.loginDataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.loginDataView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.USER_ID,
+            this.USER_NAME,
+            this.DELFLG,
+            this.LOGIN_DATE,
+            this.LOGIN_PC_NAME,
+            this.LOGIN_PC_IP});
+            this.loginDataView.Location = new System.Drawing.Point(16, 176);
+            this.loginDataView.Name = "loginDataView";
+            this.loginDataView.ReadOnly = true;
+            this.loginDataView.RowHeadersVisible = false;
+            this.loginDataView.RowHeadersWidth = 51;
+            this.loginDataView.RowTemplate.Height = 24;
+            this.loginDataView.Size = new System.Drawing.Size(752, 344);
+            this.loginDataView.TabIndex = 10;
+            // 
+            // USER_ID
+            // 
+            this.USER_ID.DataPropertyName = "user_id";
+            this.USER_ID.HeaderText = "ユーザーID";
+            this.USER_ID.MinimumWidth = 6;
+            this.USER_ID.Name = "USER_ID";
+            this.USER_ID.ReadOnly = true;
+            this.USER_ID.Width = 125;
+            // 
+            // USER_NAME
+            // 
+            this.USER_NAME.DataPropertyName = "user_name";
+            this.USER_NAME.HeaderText = "ユーザー名";
+            this.USER_NAME.MinimumWidth = 6;
+            this.USER_NAME.Name = "USER_NAME";
+            this.USER_NAME.ReadOnly = true;
+            this.USER_NAME.Width = 125;
+            // 
+            // DELFLG
+            // 
+            this.DELFLG.DataPropertyName = "delflg";
+            this.DELFLG.HeaderText = "ステータス";
+            this.DELFLG.MinimumWidth = 6;
+            this.DELFLG.Name = "DELFLG";
+            this.DELFLG.ReadOnly = true;
+            this.DELFLG.Width = 125;
+            // 
+            // LOGIN_DATE
+            // 
+            this.LOGIN_DATE.DataPropertyName = "login_date";
+            this.LOGIN_DATE.HeaderText = "ログイン日";
+            this.LOGIN_DATE.MinimumWidth = 6;
+            this.LOGIN_DATE.Name = "LOGIN_DATE";
+            this.LOGIN_DATE.ReadOnly = true;
+            this.LOGIN_DATE.Width = 125;
+            // 
+            // LOGIN_PC_NAME
+            // 
+            this.LOGIN_PC_NAME.DataPropertyName = "login_pc_name";
+            this.LOGIN_PC_NAME.HeaderText = "pc名";
+            this.LOGIN_PC_NAME.MinimumWidth = 6;
+            this.LOGIN_PC_NAME.Name = "LOGIN_PC_NAME";
+            this.LOGIN_PC_NAME.ReadOnly = true;
+            this.LOGIN_PC_NAME.Width = 125;
+            // 
+            // LOGIN_PC_IP
+            // 
+            this.LOGIN_PC_IP.DataPropertyName = "login_pc_ip";
+            this.LOGIN_PC_IP.HeaderText = "IPアドレス";
+            this.LOGIN_PC_IP.MinimumWidth = 6;
+            this.LOGIN_PC_IP.Name = "LOGIN_PC_IP";
+            this.LOGIN_PC_IP.ReadOnly = true;
+            this.LOGIN_PC_IP.Width = 125;
+            // 
+            // loginStart
+            // 
+            this.loginStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.loginStart.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.loginStart.Location = new System.Drawing.Point(485, 19);
+            this.loginStart.MaxLength = 10;
+            this.loginStart.Name = "loginStart";
+            this.loginStart.Size = new System.Drawing.Size(100, 25);
+            this.loginStart.TabIndex = 7;
+            this.loginStart.TextChanged += new System.EventHandler(this.loginStrEnd_TextChanged);
+            this.loginStart.Leave += new System.EventHandler(this.loginStrEnd_Leave);
+            // 
+            // loginEnd
+            // 
+            this.loginEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.loginEnd.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.loginEnd.Location = new System.Drawing.Point(624, 19);
+            this.loginEnd.MaxLength = 10;
+            this.loginEnd.Name = "loginEnd";
+            this.loginEnd.Size = new System.Drawing.Size(100, 25);
+            this.loginEnd.TabIndex = 9;
+            this.loginEnd.TextChanged += new System.EventHandler(this.loginStrEnd_TextChanged);
+            this.loginEnd.Leave += new System.EventHandler(this.loginStrEnd_Leave);
+            // 
+            // deleteFlg
+            // 
+            this.deleteFlg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteFlg.AutoSize = true;
+            this.deleteFlg.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.deleteFlg.Location = new System.Drawing.Point(381, 75);
+            this.deleteFlg.Name = "deleteFlg";
+            this.deleteFlg.Size = new System.Drawing.Size(230, 22);
+            this.deleteFlg.TabIndex = 11;
+            this.deleteFlg.Text = "削除済みユーザーを除く";
+            this.deleteFlg.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Location = new System.Drawing.Point(40, 112);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(149, 18);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "ログインユーザー";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.loginUserRadioButton);
+            this.groupBox1.Controls.Add(this.loginUserBox);
+            this.groupBox1.Controls.Add(this.nameRadioButton);
+            this.groupBox1.Controls.Add(this.idRadioButton);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.idLabel);
+            this.groupBox1.Controls.Add(this.idTextBox);
+            this.groupBox1.Controls.Add(this.nameLabel);
+            this.groupBox1.Controls.Add(this.nameTextBox);
+            this.groupBox1.Location = new System.Drawing.Point(24, 8);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(344, 144);
+            this.groupBox1.TabIndex = 14;
+            this.groupBox1.TabStop = false;
+            // 
+            // loginUserRadioButton
+            // 
+            this.loginUserRadioButton.AutoSize = true;
+            this.loginUserRadioButton.Location = new System.Drawing.Point(16, 111);
+            this.loginUserRadioButton.Name = "loginUserRadioButton";
+            this.loginUserRadioButton.Size = new System.Drawing.Size(21, 20);
+            this.loginUserRadioButton.TabIndex = 17;
+            this.loginUserRadioButton.TabStop = true;
+            this.loginUserRadioButton.UseVisualStyleBackColor = true;
+            this.loginUserRadioButton.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
+            // 
+            // loginUserBox
+            // 
+            this.loginUserBox.FormattingEnabled = true;
+            this.loginUserBox.Location = new System.Drawing.Point(195, 112);
+            this.loginUserBox.Name = "loginUserBox";
+            this.loginUserBox.Size = new System.Drawing.Size(121, 26);
+            this.loginUserBox.TabIndex = 16;
+            this.loginUserBox.SelectedIndexChanged += new System.EventHandler(this.loginUserBox_SelectedIndexChanged);
+            this.loginUserBox.Click += new System.EventHandler(this.loginUserBox_Click);
+            // 
+            // nameRadioButton
+            // 
+            this.nameRadioButton.AutoSize = true;
+            this.nameRadioButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.nameRadioButton.Location = new System.Drawing.Point(16, 63);
+            this.nameRadioButton.Name = "nameRadioButton";
+            this.nameRadioButton.Size = new System.Drawing.Size(21, 20);
+            this.nameRadioButton.TabIndex = 15;
+            this.nameRadioButton.TabStop = true;
+            this.nameRadioButton.UseVisualStyleBackColor = true;
+            this.nameRadioButton.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
+            // 
+            // idRadioButton
+            // 
+            this.idRadioButton.AutoSize = true;
+            this.idRadioButton.Checked = true;
+            this.idRadioButton.Location = new System.Drawing.Point(16, 16);
+            this.idRadioButton.Name = "idRadioButton";
+            this.idRadioButton.Size = new System.Drawing.Size(21, 20);
+            this.idRadioButton.TabIndex = 14;
+            this.idRadioButton.TabStop = true;
+            this.idRadioButton.UseVisualStyleBackColor = true;
+            this.idRadioButton.CheckedChanged += new System.EventHandler(this.RadioButton_CheckedChanged);
+            // 
+            // FormLoginHis
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.ClientSize = new System.Drawing.Size(783, 535);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.deleteFlg);
+            this.Controls.Add(this.loginEnd);
+            this.Controls.Add(this.loginStart);
+            this.Controls.Add(this.loginDataView);
+            this.Controls.Add(this.seachButton);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.loginDayLabel);
+            this.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Name = "FormLoginHis";
+            this.Text = "ログイン履歴画面";
+            ((System.ComponentModel.ISupportInitialize)(this.loginDataView)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+        private System.Windows.Forms.TextBox nameTextBox;
+        private System.Windows.Forms.Label idLabel;
+        private System.Windows.Forms.Label nameLabel;
+        private System.Windows.Forms.Label loginDayLabel;
+        private System.Windows.Forms.Label label4;
+        public System.Windows.Forms.TextBox idTextBox;
+        private System.Windows.Forms.Button seachButton;
+        private System.Windows.Forms.DataGridView loginDataView;
+        private System.Windows.Forms.TextBox loginStart;
+        private System.Windows.Forms.TextBox loginEnd;
+        private System.Windows.Forms.CheckBox deleteFlg;
+        private System.Windows.Forms.DataGridViewTextBoxColumn USER_ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn USER_NAME;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DELFLG;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LOGIN_DATE;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LOGIN_PC_NAME;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LOGIN_PC_IP;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton nameRadioButton;
+        private System.Windows.Forms.RadioButton idRadioButton;
+        private System.Windows.Forms.ComboBox loginUserBox;
+        private System.Windows.Forms.RadioButton loginUserRadioButton;
+    }
+}

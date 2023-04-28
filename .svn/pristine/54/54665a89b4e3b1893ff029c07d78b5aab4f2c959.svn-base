@@ -1,0 +1,21 @@
+﻿using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Data;
+
+
+namespace login
+{
+    public class Common
+    {
+        /// <summary>
+        /// サーバーの現在の日付取得
+        /// </summary>
+        /// <returns>現在日付を返す</returns>
+        public DateTime getDateNow()
+        {
+            String dateSql = "select trunc(sysdate) as test from dual";
+            DataTable dateDt = new DataAccess().ExecuteSelect(dateSql);
+            return DateTime.Parse(dateDt.Rows[0]["test"].ToString());           
+        }
+    }
+}
